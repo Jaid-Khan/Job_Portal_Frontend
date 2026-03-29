@@ -17,7 +17,7 @@ function Home() {
     try {
       setLoading(true);
       const res = await axios.get("/posts");
-      console.log("DATA:", res.data);
+      // console.log("DATA:", res.data);
       setPosts(res.data.data || []);
       setFilteredPosts(res.data.data || []);
       setError("");
