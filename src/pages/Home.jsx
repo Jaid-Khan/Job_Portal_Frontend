@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import axios from "../api/axios";
 import { useNavigate } from "react-router-dom";
 import "../styling/Home.css";
+import { Footer } from "../components/Footer";
 
 function Home() {
   const [posts, setPosts] = useState([]);
@@ -180,7 +181,7 @@ function Home() {
       </div>
 
       {/* Stats Bar */}
-      {/* <div className="stats-bar">
+      <div className="stats-bar">
         <div className="stat">
           <span className="stat-number">{filteredPosts.length}</span>
           <span className="stat-label">Posts Found</span>
@@ -193,7 +194,7 @@ function Home() {
           <span className="stat-number">{posts.filter(p => p.status === "published").length}</span>
           <span className="stat-label">Published</span>
         </div>
-      </div> */}
+      </div>
 
       {/* Posts Grid */}
       {filteredPosts.length === 0 ? (
@@ -372,6 +373,7 @@ function Home() {
           ))}
         </div>
       )}
+      <Footer/>
     </div>
   );
 }
