@@ -23,6 +23,22 @@
   animation: fadeInUp 0.8s ease;
 }
 
+.design-credit.minimal {
+  margin-top: 25px;
+  text-align: center;
+}
+
+.design-credit.minimal p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 13px;
+  letter-spacing: 0.5px;
+}
+
+.design-credit.minimal strong {
+  color: #ffd700;
+  font-weight: 600;
+}
+
 @keyframes fadeInDown {
   from {
     opacity: 0;

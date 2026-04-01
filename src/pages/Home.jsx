@@ -36,21 +36,24 @@ function Home() {
 
     // Filter by search term (title, organization, tags)
     if (searchTerm) {
-      filtered = filtered.filter(post => 
-        post.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        post.organization?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        post.tags?.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()))
+      filtered = filtered.filter(
+        (post) =>
+          post.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          post.organization?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          post.tags?.some((tag) =>
+            tag.toLowerCase().includes(searchTerm.toLowerCase()),
+          ),
       );
     }
 
     // Filter by category
     if (selectedCategory !== "All") {
-      filtered = filtered.filter(post => post.category === selectedCategory);
+      filtered = filtered.filter((post) => post.category === selectedCategory);
     }
 
     // Filter by status
     if (selectedStatus !== "All") {
-      filtered = filtered.filter(post => post.status === selectedStatus);
+      filtered = filtered.filter((post) => post.status === selectedStatus);
     }
 
     // Sort by latest first
@@ -68,17 +71,22 @@ function Home() {
   }, [filterPosts]); // Now includes filterPosts as dependency
 
   const getCategoryColor = (category) => {
-    switch(category) {
-      case "Job": return "#28a745";
-      case "Admit Card": return "#ffc107";
-      case "Result": return "#17a2b8";
-      case "Answer Key": return "#dc3545";
-      default: return "#6c757d";
+    switch (category) {
+      case "Job":
+        return "#28a745";
+      case "Admit Card":
+        return "#ffc107";
+      case "Result":
+        return "#17a2b8";
+      case "Answer Key":
+        return "#dc3545";
+      default:
+        return "#6c757d";
     }
   };
 
   const getStatusBadge = (status) => {
-    return status === "published" 
+    return status === "published"
       ? { text: "Published", color: "#28a745", bg: "#d4edda" }
       : { text: "Draft", color: "#6c757d", bg: "#e9ecef" };
   };
@@ -89,7 +97,7 @@ function Home() {
     return date.toLocaleDateString("en-IN", {
       day: "numeric",
       month: "short",
-      year: "numeric"
+      year: "numeric",
     });
   };
 
@@ -99,10 +107,11 @@ function Home() {
     const last = new Date(lastDate);
     const diffTime = last - today;
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    
+
     if (diffDays < 0) return { text: "Closed", color: "#dc3545" };
     if (diffDays === 0) return { text: "Last Day Today!", color: "#ff9800" };
-    if (diffDays <= 3) return { text: `${diffDays} days left`, color: "#ff9800" };
+    if (diffDays <= 3)
+      return { text: `${diffDays} days left`, color: "#ff9800" };
     return { text: `${diffDays} days left`, color: "#28a745" };
   };
 
@@ -113,9 +122,11 @@ function Home() {
 
   const getFeeInfo = (fees) => {
     if (!fees || fees.length === 0) return "Not specified";
-    const genFee = fees.find(f => f.category === "GEN" || f.category === "General");
+    const genFee = fees.find(
+      (f) => f.category === "GEN" || f.category === "General",
+    );
     if (genFee) return `₹${genFee.amount}`;
-    return `Starts from ₹${Math.min(...fees.map(f => f.amount))}`;
+    return `Starts from ₹${Math.min(...fees.map((f) => f.amount))}`;
   };
 
   if (loading) {
@@ -132,7 +143,9 @@ function Home() {
       <div className="error-container">
         <div className="error-icon">⚠️</div>
         <p>{error}</p>
-        <button onClick={fetchPosts} className="retry-btn">Try Again</button>
+        <button onClick={fetchPosts} className="retry-btn">
+          Try Again
+        </button>
       </div>
     );
   }
@@ -141,7 +154,15 @@ function Home() {
     <div className="home-container">
       <div className="hero-section">
         <h1>📢 Latest Government Posts</h1>
-        <p>Find all job notifications, admit cards, results, and answer keys in one place</p>
+        <p>
+          Find all job notifications, admit cards, results, and answer keys in
+          one place
+        </p>
+        <div className="design-credit minimal">
+          <p>
+            Designed by <strong>Always Online Shop</strong>
+          </p>
+        </div>
       </div>
 
       {/* Filters Section */}
@@ -156,8 +177,8 @@ function Home() {
         </div>
 
         <div className="filter-group">
-          <select 
-            value={selectedCategory} 
+          <select
+            value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
             className="filter-select"
           >
@@ -168,8 +189,8 @@ function Home() {
             <option value="Answer Key">🔑 Answer Keys</option>
           </select>
 
-          <select 
-            value={selectedStatus} 
+          <select
+            value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
             className="filter-select"
           >
@@ -201,11 +222,14 @@ function Home() {
         <div className="no-posts">
           <div className="no-posts-icon">📭</div>
           <p>No posts found matching your criteria</p>
-          <button onClick={() => {
-            setSearchTerm("");
-            setSelectedCategory("All");
-            setSelectedStatus("All");
-          }} className="clear-filters-btn">
+          <button
+            onClick={() => {
+              setSearchTerm("");
+              setSelectedCategory("All");
+              setSelectedStatus("All");
+            }}
+            className="clear-filters-btn"
+          >
             Clear Filters
           </button>
         </div>
@@ -218,19 +242,25 @@ function Home() {
               className="post-card"
             >
               <div className="post-header">
-                <div className="post-category" style={{ backgroundColor: getCategoryColor(post.category) }}>
+                <div
+                  className="post-category"
+                  style={{ backgroundColor: getCategoryColor(post.category) }}
+                >
                   {post.category}
                 </div>
-                <div className="post-status" style={{ 
-                  backgroundColor: getStatusBadge(post.status).bg,
-                  color: getStatusBadge(post.status).color
-                }}>
+                <div
+                  className="post-status"
+                  style={{
+                    backgroundColor: getStatusBadge(post.status).bg,
+                    color: getStatusBadge(post.status).color,
+                  }}
+                >
                   {getStatusBadge(post.status).text}
                 </div>
               </div>
 
               <h2 className="post-title">{post.title}</h2>
-              
+
               <div className="post-organization">
                 <span className="icon">🏢</span>
                 {post.organization}
@@ -243,8 +273,15 @@ function Home() {
                     <span className="info-icon">📅</span>
                     <div>
                       <div className="info-label">Last Date</div>
-                      <div className="info-value">{formatDate(post.dates.lastDate)}</div>
-                      <div className="days-left" style={{ color: getDaysLeft(post.dates.lastDate).color }}>
+                      <div className="info-value">
+                        {formatDate(post.dates.lastDate)}
+                      </div>
+                      <div
+                        className="days-left"
+                        style={{
+                          color: getDaysLeft(post.dates.lastDate).color,
+                        }}
+                      >
                         {getDaysLeft(post.dates.lastDate).text}
                       </div>
                     </div>
@@ -256,7 +293,9 @@ function Home() {
                     <span className="info-icon">👥</span>
                     <div>
                       <div className="info-label">Total Vacancies</div>
-                      <div className="info-value">{getTotalVacancies(post.vacancy)}</div>
+                      <div className="info-value">
+                        {getTotalVacancies(post.vacancy)}
+                      </div>
                     </div>
                   </div>
                 )}
@@ -277,16 +316,18 @@ function Home() {
                     <div>
                       <div className="info-label">Age Limit</div>
                       <div className="info-value">
-                        {post.ageLimit.min && post.ageLimit.max 
+                        {post.ageLimit.min && post.ageLimit.max
                           ? `${post.ageLimit.min}-${post.ageLimit.max} years`
-                          : post.ageLimit.min 
+                          : post.ageLimit.min
                             ? `Min ${post.ageLimit.min} years`
-                            : post.ageLimit.max 
+                            : post.ageLimit.max
                               ? `Max ${post.ageLimit.max} years`
                               : "Not specified"}
                       </div>
                       {post.ageLimit.relaxation && (
-                        <div className="relaxation">{post.ageLimit.relaxation}</div>
+                        <div className="relaxation">
+                          {post.ageLimit.relaxation}
+                        </div>
                       )}
                     </div>
                   </div>
@@ -294,7 +335,9 @@ function Home() {
               </div>
 
               {/* Important Dates */}
-              {(post.dates?.examDate || post.dates?.admitCardDate || post.dates?.formStart) && (
+              {(post.dates?.examDate ||
+                post.dates?.admitCardDate ||
+                post.dates?.formStart) && (
                 <div className="important-dates">
                   <div className="section-title">📌 Important Dates</div>
                   <div className="dates-grid">
@@ -344,7 +387,9 @@ function Home() {
               {post.tags && post.tags.length > 0 && (
                 <div className="tags-container">
                   {post.tags.slice(0, 5).map((tag, idx) => (
-                    <span key={idx} className="tag">#{tag}</span>
+                    <span key={idx} className="tag">
+                      #{tag}
+                    </span>
                   ))}
                   {post.tags.length > 5 && (
                     <span className="tag-more">+{post.tags.length - 5}</span>
@@ -355,8 +400,8 @@ function Home() {
               {/* Description Preview */}
               {post.description && (
                 <div className="description-preview">
-                  {post.description.length > 150 
-                    ? `${post.description.substring(0, 150)}...` 
+                  {post.description.length > 150
+                    ? `${post.description.substring(0, 150)}...`
                     : post.description}
                 </div>
               )}
@@ -365,15 +410,13 @@ function Home() {
                 <div className="posted-date">
                   Posted: {formatDate(post.createdAt)}
                 </div>
-                <div className="read-more">
-                  Read More →
-                </div>
+                <div className="read-more">Read More →</div>
               </div>
             </div>
           ))}
         </div>
       )}
-      <Footer/>
+      <Footer />
     </div>
   );
 }
